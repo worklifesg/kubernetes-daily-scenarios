@@ -28,7 +28,7 @@ This repository documents my journey of mastering Kubernetes through daily pract
 
 | Day | Scenario | Summary | Solution | Video |
 | :---: | :--- | :--- | :---: | :---: |
-| 01 | [Example Pod](./scenarios/core/day-01-example.md) | Creating a simple Nginx pod | [Link](./scenarios/core/day-01-example.md) | [📺 Watch](#) |
+| 01 | [Multi-Container Sidecar](./scenarios/core/day-01-multi-container-sidecar.md) | Create a Pod with Nginx and a Debian sidecar sharing a volume | [Link](./scenarios/core/day-01-multi-container-sidecar.md) | [📺 Watch](#) |
 | | | | | |
 
 ## ⚙️ Configuration
