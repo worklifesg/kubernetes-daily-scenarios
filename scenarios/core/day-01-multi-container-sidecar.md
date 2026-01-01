@@ -46,7 +46,7 @@ The primary walkthrough for this scenario is available in the video below. If yo
 Open a terminal and create a file named `web-content-generator.yaml`. You can use nano, vi, or cat.
 
 ```bash
-nano web-content-generator.yaml
+vi web-content-generator.yaml
 ```
 
 ### Step 2: Define the Pod Configuration
@@ -57,6 +57,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: web-content-generator
+  labels:
+    app: web-gen
 spec:
   # 1. Define the shared storage
   volumes:
@@ -81,8 +83,7 @@ spec:
       args:
         - |
           while true; do
-            echo "<html><body><h1>Lab Success!</h1>" > /app/data/index.html
-            echo "<p>Sidecar generated this at: $(date)</p></body></html>" >> /app/data/index.html
+            echo "<html><body style='background:#f4f4f4;font-family:sans-serif;'><h1>Lab Success!</h1><p>Content updated at: $(date)</p></body></html>" > /app/data/index.html
             sleep 5
           done
 ```
@@ -111,6 +112,8 @@ kubectl exec web-content-generator -c main-container -- cat /usr/share/nginx/htm
 ```
 
 ### Step 6: Access the Web Server
+
+#### Option 1: Localhost (Port Forwarding)
 To see the results in your browser or via curl from your host machine, use port forwarding:
 
 ```bash
@@ -122,6 +125,19 @@ Then, in a new terminal or browser, run:
 ```bash
 curl http://localhost:8080
 ```
+
+#### Option 2: Viewport App (NodePort)
+If you are using a cloud environment with a "View Port" feature, expose the pod as a Service:
+
+```bash
+# 1. Expose the pod
+kubectl expose pod web-content-generator --type=NodePort --port=80 --name=web-service-exposed
+
+# 2. Get the NodePort
+kubectl get svc web-service-exposed -o jsonpath='{.spec.ports[0].nodePort}'
+```
+
+Use the output port in your Viewport tool.
 
 </details>
 

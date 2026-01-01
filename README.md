@@ -2,7 +2,7 @@
 
 ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-![Scenarios](https://img.shields.io/badge/Scenarios-0-orange?style=for-the-badge)
+![Scenarios](https://img.shields.io/badge/Scenarios-1-orange?style=for-the-badge)
 
 Welcome to my **Kubernetes Daily Scenarios** repository! 🚀
 
@@ -10,7 +10,15 @@ This repository documents my journey of mastering Kubernetes through daily pract
 
 ---
 
-## 📚 Table of Contents
+## � Daily Challenge Log
+
+| Day | Scenario | Category | Difficulty | Link |
+| :---: | :--- | :--- | :---: | :---: |
+| 01 | [Multi-Container Sidecar](./scenarios/core/day-01-multi-container-sidecar.md) | Core Concepts | Intermediate | [View](./scenarios/core/day-01-multi-container-sidecar.md) |
+
+---
+
+## �📚 Table of Contents
 
 - [🚀 Core Concepts](#-core-concepts)
 - [⚙️ Configuration](#-configuration)
