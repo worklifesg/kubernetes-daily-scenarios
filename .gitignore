@@ -1,0 +1,19 @@
+# Kubernetes
+*.log
+*.out
+.kube/
+.minikube/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Terraform (if used later)
+.terraform/
+*.tfstate
+*.tfstate.backup
