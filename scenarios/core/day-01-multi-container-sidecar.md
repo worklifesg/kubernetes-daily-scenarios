@@ -37,19 +37,93 @@ You will create a Pod named `web-content-generator` that contains:
 
 ## 💻 Solution
 
-> *The solution for this scenario has not been added yet. Try to solve it yourself first!*
+The primary walkthrough for this scenario is available in the video below. If you prefer a text-based guide or need to copy-paste commands, expand the section below.
 
-### Step 1: Define the Pod Manifest
+<details>
+<summary>Click to reveal the Step-by-Step Solution</summary>
 
-```yaml
-# TODO: Write your YAML here
-```
-
-### Step 2: Apply and Verify
+### Step 1: Create the Manifest File
+Open a terminal and create a file named `web-content-generator.yaml`. You can use nano, vi, or cat.
 
 ```bash
-# TODO: Add commands to apply and verify
+nano web-content-generator.yaml
 ```
+
+### Step 2: Define the Pod Configuration
+Paste the following YAML into the file. Pay close attention to how the `volumes` and `volumeMounts` use the same name (`shared-data`).
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-content-generator
+spec:
+  # 1. Define the shared storage
+  volumes:
+    - name: shared-data
+      emptyDir: {}
+
+  containers:
+    # 2. The Main Web Server
+    - name: main-container
+      image: nginx:latest
+      volumeMounts:
+        - name: shared-data
+          mountPath: /usr/share/nginx/html # Nginx default web root
+
+    # 3. The Sidecar Content Generator
+    - name: sidecar-container
+      image: debian:latest
+      volumeMounts:
+        - name: shared-data
+          mountPath: /app/data
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          while true; do
+            echo "<html><body><h1>Lab Success!</h1>" > /app/data/index.html
+            echo "<p>Sidecar generated this at: $(date)</p></body></html>" >> /app/data/index.html
+            sleep 5
+          done
+```
+
+### Step 3: Apply the Manifest
+Use `kubectl` to send the configuration to the cluster:
+
+```bash
+kubectl apply -f web-content-generator.yaml
+```
+
+### Step 4: Verify Container Initialization
+Since the Pod has two containers, it may take a few seconds to pull both the nginx and debian images. Check the status:
+
+```bash
+kubectl get pod web-content-generator
+```
+
+> **Note:** You should see `2/2` in the READY column.
+
+### Step 5: Test the Internal Connection
+You can verify that the Sidecar is successfully writing to the volume by "executing" into the Main container and reading the file:
+
+```bash
+kubectl exec web-content-generator -c main-container -- cat /usr/share/nginx/html/index.html
+```
+
+### Step 6: Access the Web Server
+To see the results in your browser or via curl from your host machine, use port forwarding:
+
+```bash
+kubectl port-forward web-content-generator 8080:80
+```
+
+Then, in a new terminal or browser, run:
+
+```bash
+curl http://localhost:8080
+```
+
+</details>
 
 ---
 
